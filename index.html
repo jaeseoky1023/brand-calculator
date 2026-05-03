@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>브랜드 구매대행 마진 계산기</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>브랜드 구매대행 마진 계산기</h1>
+</header>
+
+<!-- 환율 바 -->
+<div class="rate-bar">
+  <div class="rate-item">
+    <span class="country-label">🇺🇸 USD</span>
+    <span class="rate-value" id="bar-usd">-</span>
+    <span class="unit">원</span>
+  </div>
+  <div class="rate-divider"></div>
+  <div class="rate-item">
+    <span class="country-label">🇬🇧 GBP</span>
+    <span class="rate-value" id="bar-gbp">-</span>
+    <span class="unit">원</span>
+  </div>
+  <div class="rate-divider"></div>
+  <div class="rate-item">
+    <span class="country-label">🇩🇪 EUR</span>
+    <span class="rate-value" id="bar-eur">-</span>
+    <span class="unit">원</span>
+  </div>
+  <div class="rate-divider"></div>
+  <button class="refresh-btn" onclick="fetchRates()">↺ 환율 새로고침</button>
+</div>
+<div class="rate-status" id="rate-status">네이버 금융 환율 조회 중...</div>
+
+<!-- 3개 카드 그리드 -->
+<div class="grid">
+
+  <!-- ── 미국 카드 ── -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-flag">🇺🇸</span>
+      <span class="card-title">미국</span>
+      <span class="card-currency">USD ($)</span>
+    </div>
+
+    <div class="rate-field">
+      <div class="rate-field-top">
+        <span class="rate-label">환율 (원/USD)</span>
+        <span class="rate-badge auto" id="badge-usd">자동</span>
+      </div>
+      <input type="number" id="rate-usd" class="rate-input"
+             placeholder="조회 중..." min="100" max="9999" step="1"
+             oninput="onManualRate('usd')">
+    </div>
+
+    <div class="field">
+      <label>판매가 (원)</label>
+      <input type="text" id="us-sell" placeholder="0" inputmode="numeric"
+             oninput="fmtKRW(this); calc('us')">
+    </div>
+
+    <div class="field">
+      <label>현지 구매가 ($)</label>
+      <div class="input-wrap">
+        <span class="input-prefix">$</span>
+        <input type="number" id="us-local" class="with-prefix" placeholder="0.00" min="0" step="0.01"
+               oninput="calc('us')">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>무게 (kg)</label>
+      <select id="us-weight" onchange="calc('us')">
+        <option value="">-- 선택 --</option>
+      </select>
+    </div>
+
+    <div class="result-box">
+      <div class="result-label">예상 마진</div>
+      <div class="result-value" id="us-result">-</div>
+    </div>
+  </div>
+
+  <!-- ── 영국 카드 ── -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-flag">🇬🇧</span>
+      <span class="card-title">영국</span>
+      <span class="card-currency">GBP (£)</span>
+    </div>
+
+    <div class="rate-field">
+      <div class="rate-field-top">
+        <span class="rate-label">환율 (원/GBP)</span>
+        <span class="rate-badge auto" id="badge-gbp">자동</span>
+      </div>
+      <input type="number" id="rate-gbp" class="rate-input"
+             placeholder="조회 중..." min="100" max="9999" step="1"
+             oninput="onManualRate('gbp')">
+    </div>
+
+    <div class="field">
+      <label>판매가 (원)</label>
+      <input type="text" id="uk-sell" placeholder="0" inputmode="numeric"
+             oninput="fmtKRW(this); calc('uk')">
+    </div>
+
+    <div class="field">
+      <label>현지 구매가 (£)</label>
+      <div class="input-wrap">
+        <span class="input-prefix">£</span>
+        <input type="number" id="uk-local" class="with-prefix" placeholder="0.00" min="0" step="0.01"
+               oninput="calc('uk')">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>무게 (kg)</label>
+      <select id="uk-weight" onchange="calc('uk')">
+        <option value="">-- 선택 --</option>
+      </select>
+    </div>
+
+    <div class="result-box">
+      <div class="result-label">예상 마진</div>
+      <div class="result-value" id="uk-result">-</div>
+    </div>
+  </div>
+
+  <!-- ── 독일 카드 ── -->
+  <div class="card">
+    <div class="card-header">
+      <span class="card-flag">🇩🇪</span>
+      <span class="card-title">독일</span>
+      <span class="card-currency">EUR (€)</span>
+    </div>
+
+    <div class="rate-field">
+      <div class="rate-field-top">
+        <span class="rate-label">환율 (원/EUR)</span>
+        <span class="rate-badge auto" id="badge-eur">자동</span>
+      </div>
+      <input type="number" id="rate-eur" class="rate-input"
+             placeholder="조회 중..." min="100" max="9999" step="1"
+             oninput="onManualRate('eur')">
+    </div>
+
+    <div class="field">
+      <label>판매가 (원)</label>
+      <input type="text" id="de-sell" placeholder="0" inputmode="numeric"
+             oninput="fmtKRW(this); calc('de')">
+    </div>
+
+    <div class="field">
+      <label>현지 구매가 (€)</label>
+      <div class="input-wrap">
+        <span class="input-prefix">€</span>
+        <input type="number" id="de-local" class="with-prefix" placeholder="0.00" min="0" step="0.01"
+               oninput="calc('de')">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>무게 (kg)</label>
+      <select id="de-weight" onchange="calc('de')">
+        <option value="">-- 선택 --</option>
+      </select>
+    </div>
+
+    <div class="result-box">
+      <div class="result-label">예상 마진</div>
+      <div class="result-value" id="de-result">-</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="hint"><kbd>ESC</kbd> 키 → 판매가 · 현지 구매가 · 무게 초기화</div>
+
+<script src="calculator.js"></script>
+</body>
+</html>

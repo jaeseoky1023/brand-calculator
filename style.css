@@ -1,0 +1,322 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Nanum Gothic', sans-serif;
+  background: #eef0f5;
+  min-height: 100vh;
+  padding: 24px 16px 40px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1a2e;
+  letter-spacing: -0.5px;
+}
+
+/* ── 환율 상단 바 ── */
+.rate-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  background: #fff;
+  padding: 14px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  max-width: 960px;
+  margin: 0 auto 8px;
+}
+
+.rate-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+}
+
+.rate-item .country-label {
+  color: #555;
+  font-weight: 700;
+}
+
+.rate-item .rate-value {
+  color: #0055bb;
+  font-weight: 800;
+  font-size: 17px;
+  min-width: 60px;
+}
+
+.rate-item .unit {
+  color: #888;
+  font-size: 13px;
+}
+
+.rate-divider {
+  width: 1px;
+  height: 20px;
+  background: #ddd;
+}
+
+.refresh-btn {
+  background: #f0f4ff;
+  border: 1.5px solid #c5d3f5;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  color: #4466cc;
+  transition: background 0.15s;
+}
+
+.refresh-btn:hover {
+  background: #dde8ff;
+}
+
+.rate-status {
+  text-align: center;
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.rate-status.error {
+  color: #cc4444;
+}
+
+/* ── 카드 그리드 ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+@media (max-width: 760px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 22px 20px 20px;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid #f0f2f7;
+}
+
+.card-flag {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+
+.card-currency {
+  margin-left: auto;
+  font-size: 12px;
+  color: #999;
+  font-weight: 700;
+  background: #f5f5f5;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+/* ── 환율 입력 필드 (카드 내) ── */
+.rate-field {
+  margin-bottom: 14px;
+}
+
+.rate-field-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.rate-label {
+  font-size: 12px;
+  color: #6688bb;
+  font-weight: 700;
+}
+
+.rate-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 10px;
+  letter-spacing: 0.2px;
+}
+
+.rate-badge.auto {
+  background: #e6f4ea;
+  color: #1a7a2e;
+  border: 1px solid #b8dfbe;
+}
+
+.rate-badge.manual {
+  background: #fff3cd;
+  color: #8a5e00;
+  border: 1px solid #ffc107;
+}
+
+.rate-input {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #0055bb;
+  font-family: 'Nanum Gothic', sans-serif;
+  border: 1.5px solid #d5e3ff;
+  border-radius: 8px;
+  background: #f3f7ff;
+  text-align: right;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.rate-input:focus {
+  outline: none;
+  border-color: #4477dd;
+  box-shadow: 0 0 0 3px rgba(68,119,221,0.12);
+  background: #fff;
+}
+
+.rate-input.manual-mode {
+  border-color: #ffc107;
+  background: #fffdf0;
+  color: #8a5e00;
+}
+
+/* ── 입력 필드 ── */
+.field {
+  margin-bottom: 12px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  font-weight: 700;
+  margin-bottom: 5px;
+  letter-spacing: 0.3px;
+}
+
+.input-wrap {
+  position: relative;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #888;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-family: 'Nanum Gothic', sans-serif;
+  border: 1.5px solid #e2e5ec;
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  color: #1a1a2e;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: #4477dd;
+  box-shadow: 0 0 0 3px rgba(68, 119, 221, 0.12);
+}
+
+.field input.with-prefix {
+  padding-left: 26px;
+}
+
+/* ── 결과 ── */
+.result-box {
+  margin-top: 16px;
+  padding: 14px;
+  background: #f8f9fb;
+  border-radius: 10px;
+  border: 1.5px solid #e8eaf0;
+  text-align: center;
+}
+
+.result-label {
+  font-size: 12px;
+  color: #888;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.result-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #bbb;
+  letter-spacing: -0.5px;
+}
+
+.result-value.positive {
+  color: #cc1111;
+}
+
+.result-value.negative {
+  color: #1144cc;
+}
+
+/* ── 하단 힌트 ── */
+.hint {
+  text-align: center;
+  font-size: 12px;
+  color: #bbb;
+  margin-top: 20px;
+}
+
+.hint kbd {
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 11px;
+  color: #666;
+}
