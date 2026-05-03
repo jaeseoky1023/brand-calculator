@@ -133,9 +133,18 @@ header h1 {
   border-bottom: 2px solid #f0f2f7;
 }
 
-.card-flag {
-  font-size: 26px;
-  line-height: 1;
+.flag-sm {
+  width: 22px;
+  height: auto;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.flag-lg {
+  width: 32px;
+  height: auto;
+  border-radius: 3px;
+  vertical-align: middle;
 }
 
 .card-title {
